@@ -74,7 +74,7 @@ server <- function(input, output, session) {
     ### calculate the amortization table.
     amt.check = sum(MIN.PAY()) < input$amt
     shinyFeedback::feedbackDanger("amt", !amt.check, 
-                                  paste0("Your payment amount does not meet the sum of the minimum monthly payments of ", 
+                                  paste0("Your payment amount does not meet the sum of the minimum monthly payments of $", 
                                          sum(MIN.PAY())))
     req(amt.check, cancelOutput = TRUE)
     
