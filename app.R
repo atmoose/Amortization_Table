@@ -2,7 +2,7 @@ library(shiny)
 
 
 ## Set working directory with files
-# setwd("C:/Users/icamo/Documents/R stuff/Amortization")
+# setwd(".......")
 
 ## Separate UI & Server from app. Calling it into the workspace
 source('ui.R')
