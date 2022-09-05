@@ -6,7 +6,7 @@ library(shinyWidgets, warn.conflicts = FALSE)
 library(shinyjs)
 
 ## Set working directory with files
-# setwd("C:/Users/icamo/Documents/R stuff/Amortization")
+# setwd("......")
 
 ## Call the helper functions used in the app.
 source('helper_functions.R')
