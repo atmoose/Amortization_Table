@@ -1,3 +1,13 @@
+## Packages needed to be in the server functions of the app
+library(dplyr, warn.conflicts = FALSE)
+library(purrr, warn.conflicts = FALSE)
+library(ggplot2, warn.conflicts = FALSE)
+library(shinyWidgets, warn.conflicts = FALSE)
+library(shinyjs, warn.conflicts = FALSE)
+
+## Call the helper functions used in the app.
+source('helper_functions.R')
+
 server <- function(input, output, session) {
   
   # Create names based off the number of loans
@@ -11,31 +21,32 @@ server <- function(input, output, session) {
   know = reactive(input$know)
   
   output$table = renderUI({
+    req(input$n)
     fluidRow(
       # Add the dollar sign icon to the left
-      column(3, map(loan_names(), ~numericInputIcon(.x, "Loans", value = isolate(input[[.x]]),
+      column(3, purrr::map(loan_names(), ~numericInputIcon(.x, "Loans", value = isolate(input[[.x]]),
                                                     min = 1, icon = icon("dollar-sign")))),
       # Add the percent icon to the right of the input box
-      column(3, map(apr_names(), 
+      column(3, purrr::map(apr_names(), 
                     ~shinyWidgets::numericInputIcon(.x, "APR", value = isolate(input[[.x]]), 
                                                     min = 0, icon = list(NULL, icon("percent"))))),
       # Switch last column if you know your monthly payments.
       if(know() == "Yes"){
         # Add the dollar sign icon to the left
-        column(4, map(monthly_names(), ~numericInputIcon(.x, "Monthly Payment", value = isolate(input[[.x]]),
+        column(4, purrr::map(monthly_names(), ~numericInputIcon(.x, "Monthly Payment", value = isolate(input[[.x]]),
                                                          min = 1, icon = icon("dollar-sign"))))
       } else {
-        column(4, map(term_names(), ~numericInput(.x, "Total Number of Payments", value = isolate(input[[.x]]),
+        column(4, purrr::map(term_names(), ~numericInput(.x, "Total Number of Payments", value = isolate(input[[.x]]),
                                                   min = 1)))
       }
     )
   })
   
   ## Grabbing input values
-  loan_val = reactive(map_dbl(loan_names(), ~input[[.x]] %||% ""))
-  apr_val = reactive(map_dbl(apr_names(), ~input[[.x]] %||% ""))
-  monthly_val = reactive(map_dbl(monthly_names(), ~input[[.x]] %||% ""))
-  term_val = reactive(map_dbl(term_names(), ~input[[.x]] %||% ""))
+  loan_val = reactive(purrr::map_dbl(loan_names(), ~input[[.x]] %||% ""))
+  apr_val = reactive(purrr::map_dbl(apr_names(), ~input[[.x]] %||% ""))
+  monthly_val = reactive(purrr::map_dbl(monthly_names(), ~input[[.x]] %||% ""))
+  term_val = reactive(purrr::map_dbl(term_names(), ~input[[.x]] %||% ""))
   
   # Calculate the minimum monthly payment if user doesn't know them.
   MIN.PAY = reactive({

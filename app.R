@@ -1,15 +1,8 @@
 library(shiny)
-library(dplyr, warn.conflicts = FALSE)
-library(purrr, warn.conflicts = FALSE)
-library(ggplot2, warn.conflicts = FALSE)
-library(shinyWidgets, warn.conflicts = FALSE)
-library(shinyjs)
+
 
 ## Set working directory with files
-# setwd("......")
-
-## Call the helper functions used in the app.
-source('helper_functions.R')
+# setwd("C:/Users/icamo/Documents/R stuff/Amortization")
 
 ## Separate UI & Server from app. Calling it into the workspace
 source('ui.R')
